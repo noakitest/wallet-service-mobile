@@ -48,15 +48,24 @@ export default function DIDAuthScreen({ navigation, route }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 16 }}>
-        <View style={{ backgroundColor: '#fff', borderRadius: 12, overflow: 'hidden', elevation: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 8 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 20 }}>
+        <View style={{
+          backgroundColor: '#fff',
+          borderRadius: 16,
+          overflow: 'hidden',
+          elevation: 4,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+        }}>
           {/* ヘッダー */}
           <GradientHeader colors={GRADIENT_COLORS.cyanBlue}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 10 }}>
               <WalletIcon size={32} color="#fff" />
               <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#fff' }}>DID認証</Text>
             </View>
-            <Text style={{ fontSize: 14, color: '#A5F3FC' }}>
+            <Text style={{ fontSize: 15, color: '#A5F3FC', lineHeight: 22 }}>
               あなたのDIDでログインを要求しています
             </Text>
           </GradientHeader>
@@ -64,20 +73,33 @@ export default function DIDAuthScreen({ navigation, route }) {
           <View style={{ padding: 24 }}>
             {!confirmed ? (
               <>
-                <View style={{ marginBottom: 24 }}>
-                  <Text style={{ fontSize: 14, color: '#4B5563', marginBottom: 16 }}>
+                <View style={{ marginBottom: 28 }}>
+                  <Text style={{ fontSize: 15, color: '#4B5563', marginBottom: 20, lineHeight: 22 }}>
                     以下のDIDを使って認証します。よろしいですか？
                   </Text>
-                  <View style={{ backgroundColor: '#F9FAFB', borderRadius: 8, padding: 16, borderWidth: 1, borderColor: '#E5E7EB' }}>
-                    <Text style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>あなたのDID</Text>
-                    <Text style={{ fontSize: 14, color: '#374151', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace' }}>
+                  <View style={{
+                    backgroundColor: '#F9FAFB',
+                    borderRadius: 12,
+                    padding: 18,
+                    borderWidth: 1,
+                    borderColor: '#E5E7EB',
+                  }}>
+                    <Text style={{ fontSize: 13, color: '#6B7280', marginBottom: 6 }}>あなたのDID</Text>
+                    <Text style={{ fontSize: 14, color: '#374151', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace', lineHeight: 22 }}>
                       {did}
                     </Text>
                   </View>
                 </View>
 
-                <View style={{ backgroundColor: '#EFF6FF', borderRadius: 8, padding: 16, borderWidth: 1, borderColor: '#BFDBFE', marginBottom: 24 }}>
-                  <Text style={{ fontSize: 12, color: '#1D4ED8' }}>
+                <View style={{
+                  backgroundColor: '#EFF6FF',
+                  borderRadius: 12,
+                  padding: 18,
+                  borderWidth: 1,
+                  borderColor: '#BFDBFE',
+                  marginBottom: 28,
+                }}>
+                  <Text style={{ fontSize: 14, color: '#1D4ED8', lineHeight: 20 }}>
                     DID認証ではDIDの所有証明のみを送信します。身分証の個人情報は送信されません。
                   </Text>
                 </View>
@@ -90,8 +112,8 @@ export default function DIDAuthScreen({ navigation, route }) {
                       borderWidth: 2,
                       borderColor: '#D1D5DB',
                       backgroundColor: pressed ? '#F9FAFB' : '#fff',
-                      borderRadius: 8,
-                      paddingVertical: 14,
+                      borderRadius: 12,
+                      paddingVertical: 16,
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -99,15 +121,15 @@ export default function DIDAuthScreen({ navigation, route }) {
                     })}
                   >
                     <ArrowLeft size={20} color="#374151" />
-                    <Text style={{ color: '#374151', fontWeight: '600' }}>キャンセル</Text>
+                    <Text style={{ color: '#374151', fontWeight: '600', fontSize: 16 }}>キャンセル</Text>
                   </Pressable>
                   <Pressable
                     onPress={handleConfirm}
                     style={({ pressed }) => ({
                       flex: 1,
                       backgroundColor: pressed ? '#0E7490' : '#0891B2',
-                      borderRadius: 8,
-                      paddingVertical: 14,
+                      borderRadius: 12,
+                      paddingVertical: 16,
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -115,17 +137,25 @@ export default function DIDAuthScreen({ navigation, route }) {
                     })}
                   >
                     <Send size={20} color="#fff" />
-                    <Text style={{ color: '#fff', fontWeight: '600' }}>認証する</Text>
+                    <Text style={{ color: '#fff', fontWeight: '600', fontSize: 16 }}>認証する</Text>
                   </Pressable>
                 </View>
               </>
             ) : (
-              <View style={{ paddingVertical: 32, alignItems: 'center' }}>
-                <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: '#DCFCE7', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                  <CheckIcon size={32} color="#16A34A" />
+              <View style={{ paddingVertical: 40, alignItems: 'center' }}>
+                <View style={{
+                  width: 72,
+                  height: 72,
+                  borderRadius: 36,
+                  backgroundColor: '#DCFCE7',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 20,
+                }}>
+                  <CheckIcon size={36} color="#16A34A" />
                 </View>
-                <Text style={{ color: '#374151', fontWeight: '600', marginBottom: 8 }}>認証情報を送信中...</Text>
-                <Text style={{ fontSize: 14, color: '#6B7280' }}>リダイレクトしています</Text>
+                <Text style={{ color: '#374151', fontWeight: '600', fontSize: 17, marginBottom: 10 }}>認証情報を送信中...</Text>
+                <Text style={{ fontSize: 15, color: '#6B7280', lineHeight: 22 }}>リダイレクトしています</Text>
               </View>
             )}
           </View>

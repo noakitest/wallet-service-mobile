@@ -30,18 +30,35 @@ export default function ActivationScreen({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 16 }}>
-        <View style={{ backgroundColor: '#fff', borderRadius: 12, overflow: 'hidden', elevation: 4, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 8 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 20 }}>
+        <View style={{
+          backgroundColor: '#fff',
+          borderRadius: 16,
+          overflow: 'hidden',
+          elevation: 4,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+        }}>
           {/* ヘッダー */}
-          <GradientHeader colors={GRADIENT_COLORS.blueIndigo} style={{ paddingVertical: 32 }}>
+          <GradientHeader colors={GRADIENT_COLORS.blueIndigo} style={{ paddingVertical: 36 }}>
             <View style={{ alignItems: 'center' }}>
-              <View style={{ width: 80, height: 80, borderRadius: 40, backgroundColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                <WalletIcon size={40} color="#fff" />
+              <View style={{
+                width: 88,
+                height: 88,
+                borderRadius: 44,
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 20,
+              }}>
+                <WalletIcon size={44} color="#fff" />
               </View>
-              <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#fff', marginBottom: 8 }}>
+              <Text style={{ fontSize: 26, fontWeight: 'bold', color: '#fff', marginBottom: 10 }}>
                 デジタルウォレット
               </Text>
-              <Text style={{ fontSize: 14, color: '#BFDBFE' }}>
+              <Text style={{ fontSize: 15, color: '#BFDBFE', lineHeight: 22 }}>
                 {step === 'intro' && 'ウォレットをアクティベートして利用を開始します'}
                 {step === 'generating' && 'DIDを生成しています...'}
                 {step === 'done' && 'アクティベートが完了しました'}
@@ -53,19 +70,26 @@ export default function ActivationScreen({ navigation }) {
             {/* Step: intro */}
             {step === 'intro' && (
               <View>
-                <View style={{ gap: 16, marginBottom: 24 }}>
+                <View style={{ gap: 20, marginBottom: 28 }}>
                   {[
                     { num: '1', title: 'DID（分散型識別子）の生成', desc: 'あなた固有のデジタルIDが発行されます' },
                     { num: '2', title: '身分証の登録', desc: '本人確認書類をVCとして登録します' },
                     { num: '3', title: '利用開始', desc: 'ウォレットを使った認証が可能になります' },
                   ].map((item) => (
-                    <View key={item.num} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
-                      <View style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: '#DBEAFE', alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ color: '#2563EB', fontWeight: 'bold', fontSize: 14 }}>{item.num}</Text>
+                    <View key={item.num} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 14 }}>
+                      <View style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: 18,
+                        backgroundColor: '#DBEAFE',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                        <Text style={{ color: '#2563EB', fontWeight: 'bold', fontSize: 16 }}>{item.num}</Text>
                       </View>
                       <View style={{ flex: 1 }}>
-                        <Text style={{ fontWeight: '600', color: '#111827' }}>{item.title}</Text>
-                        <Text style={{ fontSize: 14, color: '#6B7280', marginTop: 2 }}>{item.desc}</Text>
+                        <Text style={{ fontWeight: '600', color: '#111827', fontSize: 16, marginBottom: 2 }}>{item.title}</Text>
+                        <Text style={{ fontSize: 14, color: '#6B7280', lineHeight: 20 }}>{item.desc}</Text>
                       </View>
                     </View>
                   ))}
@@ -74,12 +98,12 @@ export default function ActivationScreen({ navigation }) {
                   onPress={handleActivate}
                   style={({ pressed }) => ({
                     backgroundColor: pressed ? '#1D4ED8' : '#2563EB',
-                    borderRadius: 8,
-                    paddingVertical: 14,
+                    borderRadius: 12,
+                    paddingVertical: 16,
                     alignItems: 'center',
                   })}
                 >
-                  <Text style={{ color: '#fff', fontWeight: '600', fontSize: 16 }}>
+                  <Text style={{ color: '#fff', fontWeight: '600', fontSize: 17 }}>
                     ウォレットをアクティベート
                   </Text>
                 </Pressable>
@@ -88,29 +112,43 @@ export default function ActivationScreen({ navigation }) {
 
             {/* Step: generating */}
             {step === 'generating' && (
-              <View style={{ paddingVertical: 32, alignItems: 'center' }}>
-                <View style={{ marginBottom: 24 }}>
-                  <LoadingSpinner size={64} color="#2563EB" trackColor="#BFDBFE" />
+              <View style={{ paddingVertical: 40, alignItems: 'center' }}>
+                <View style={{ marginBottom: 28 }}>
+                  <LoadingSpinner size={72} color="#2563EB" trackColor="#BFDBFE" />
                 </View>
-                <Text style={{ color: '#374151', fontWeight: '600', marginBottom: 8 }}>DIDを生成中...</Text>
-                <Text style={{ fontSize: 14, color: '#6B7280' }}>鍵ペアの生成と識別子の登録を行っています</Text>
+                <Text style={{ color: '#374151', fontWeight: '600', fontSize: 17, marginBottom: 10 }}>DIDを生成中...</Text>
+                <Text style={{ fontSize: 15, color: '#6B7280', lineHeight: 22 }}>鍵ペアの生成と識別子の登録を行っています</Text>
               </View>
             )}
 
             {/* Step: done */}
             {step === 'done' && (
               <View>
-                <View style={{ alignItems: 'center', marginBottom: 16 }}>
-                  <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: '#DCFCE7', alignItems: 'center', justifyContent: 'center' }}>
-                    <CheckIcon size={32} color="#16A34A" />
+                <View style={{ alignItems: 'center', marginBottom: 20 }}>
+                  <View style={{
+                    width: 72,
+                    height: 72,
+                    borderRadius: 36,
+                    backgroundColor: '#DCFCE7',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <CheckIcon size={36} color="#16A34A" />
                   </View>
                 </View>
-                <Text style={{ textAlign: 'center', fontWeight: '600', color: '#111827', marginBottom: 8 }}>
+                <Text style={{ textAlign: 'center', fontWeight: '600', color: '#111827', fontSize: 18, marginBottom: 10 }}>
                   DIDが生成されました
                 </Text>
-                <View style={{ backgroundColor: '#F9FAFB', borderRadius: 8, padding: 12, marginBottom: 24, borderWidth: 1, borderColor: '#E5E7EB' }}>
-                  <Text style={{ fontSize: 12, color: '#6B7280', marginBottom: 4 }}>あなたのDID</Text>
-                  <Text style={{ fontSize: 12, color: '#374151', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace' }}>
+                <View style={{
+                  backgroundColor: '#F9FAFB',
+                  borderRadius: 12,
+                  padding: 16,
+                  marginBottom: 28,
+                  borderWidth: 1,
+                  borderColor: '#E5E7EB',
+                }}>
+                  <Text style={{ fontSize: 13, color: '#6B7280', marginBottom: 6 }}>あなたのDID</Text>
+                  <Text style={{ fontSize: 13, color: '#374151', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace', lineHeight: 20 }}>
                     {generatedDID}
                   </Text>
                 </View>
@@ -118,12 +156,12 @@ export default function ActivationScreen({ navigation }) {
                   onPress={handleComplete}
                   style={({ pressed }) => ({
                     backgroundColor: pressed ? '#1D4ED8' : '#2563EB',
-                    borderRadius: 8,
-                    paddingVertical: 14,
+                    borderRadius: 12,
+                    paddingVertical: 16,
                     alignItems: 'center',
                   })}
                 >
-                  <Text style={{ color: '#fff', fontWeight: '600', fontSize: 16 }}>
+                  <Text style={{ color: '#fff', fontWeight: '600', fontSize: 17 }}>
                     次へ：身分証を登録する
                   </Text>
                 </Pressable>

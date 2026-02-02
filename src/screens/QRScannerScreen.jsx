@@ -57,7 +57,7 @@ export default function QRScannerScreen({ navigation, route }) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ color: '#fff' }}>カメラ権限を確認中...</Text>
+          <Text style={{ color: '#fff', fontSize: 16 }}>カメラ権限を確認中...</Text>
         </View>
       </SafeAreaView>
     );
@@ -68,26 +68,26 @@ export default function QRScannerScreen({ navigation, route }) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#000' }}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-          <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold', marginBottom: 12, textAlign: 'center' }}>
+          <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold', marginBottom: 14, textAlign: 'center' }}>
             カメラへのアクセスが必要です
           </Text>
-          <Text style={{ color: '#9CA3AF', fontSize: 14, textAlign: 'center', marginBottom: 24 }}>
+          <Text style={{ color: '#9CA3AF', fontSize: 15, textAlign: 'center', marginBottom: 32, lineHeight: 22 }}>
             委任状QRコードをスキャンするためにカメラを使用します
           </Text>
           <Pressable
             onPress={requestPermission}
             style={({ pressed }) => ({
               backgroundColor: pressed ? '#1D4ED8' : '#2563EB',
-              borderRadius: 8,
-              paddingVertical: 14,
-              paddingHorizontal: 24,
-              marginBottom: 12,
+              borderRadius: 12,
+              paddingVertical: 16,
+              paddingHorizontal: 32,
+              marginBottom: 16,
             })}
           >
-            <Text style={{ color: '#fff', fontWeight: '600' }}>カメラを許可する</Text>
+            <Text style={{ color: '#fff', fontWeight: '600', fontSize: 17 }}>カメラを許可する</Text>
           </Pressable>
-          <Pressable onPress={handleClose}>
-            <Text style={{ color: '#9CA3AF', fontSize: 14 }}>戻る</Text>
+          <Pressable onPress={handleClose} style={{ paddingVertical: 12, paddingHorizontal: 24 }}>
+            <Text style={{ color: '#9CA3AF', fontSize: 16 }}>戻る</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -106,16 +106,19 @@ export default function QRScannerScreen({ navigation, route }) {
       {/* オーバーレイUI */}
       <SafeAreaView style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
         {/* 上部バー */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
-          <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20 }}>
+          <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
             委任状QRコードをスキャン
           </Text>
           <Pressable
             onPress={handleClose}
             style={({ pressed }) => ({
-              padding: 8,
+              width: 44,
+              height: 44,
+              alignItems: 'center',
+              justifyContent: 'center',
               backgroundColor: pressed ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.2)',
-              borderRadius: 20,
+              borderRadius: 22,
             })}
           >
             <XIcon size={24} color="#fff" />
@@ -124,17 +127,29 @@ export default function QRScannerScreen({ navigation, route }) {
 
         {/* 中央ガイド枠 */}
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <View style={{ width: 250, height: 250, borderWidth: 2, borderColor: 'rgba(255,255,255,0.5)', borderRadius: 12 }} />
+          <View style={{
+            width: 260,
+            height: 260,
+            borderWidth: 2,
+            borderColor: 'rgba(255,255,255,0.5)',
+            borderRadius: 16,
+          }} />
         </View>
 
         {/* 下部メッセージ */}
-        <View style={{ padding: 16, alignItems: 'center' }}>
+        <View style={{ padding: 20, alignItems: 'center' }}>
           {scanError ? (
-            <View style={{ backgroundColor: 'rgba(220,38,38,0.9)', borderRadius: 8, padding: 12, marginBottom: 16, width: '100%' }}>
-              <Text style={{ color: '#fff', fontSize: 14, textAlign: 'center' }}>{scanError}</Text>
+            <View style={{
+              backgroundColor: 'rgba(220,38,38,0.9)',
+              borderRadius: 12,
+              padding: 16,
+              marginBottom: 20,
+              width: '100%',
+            }}>
+              <Text style={{ color: '#fff', fontSize: 15, textAlign: 'center', lineHeight: 22 }}>{scanError}</Text>
             </View>
           ) : (
-            <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, textAlign: 'center', marginBottom: 16 }}>
+            <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 15, textAlign: 'center', marginBottom: 20, lineHeight: 22 }}>
               委任者が表示したQRコードをカメラにかざしてください
             </Text>
           )}

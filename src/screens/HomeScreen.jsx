@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, Pressable, ScrollView, Modal, Platform, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Clipboard from 'expo-clipboard';
@@ -16,13 +16,11 @@ export default function HomeScreen({ navigation, route }) {
   const [showQR, setShowQR] = useState(false);
   const [scanSuccess, setScanSuccess] = useState(null);
 
-  // QRScannerScreenからのスキャン結果を受け取る
   useEffect(() => {
     if (route.params?.scannedDelegationVC) {
       const delegationVC = route.params.scannedDelegationVC;
       addDelegationVC(delegationVC);
       setScanSuccess(delegationVC);
-      // パラメータをクリア
       navigation.setParams({ scannedDelegationVC: undefined });
     }
   }, [route.params?.scannedDelegationVC]);
@@ -33,68 +31,59 @@ export default function HomeScreen({ navigation, route }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleStartScanner = () => {
-    navigation.navigate('QRScanner', { did });
-  };
-
-  const handleAddIdentityVC = () => {
-    navigation.navigate('VCRegistration');
-  };
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }}>
       <ScrollView>
         {/* ヘッダー */}
-        <GradientHeader colors={GRADIENT_COLORS.blueIndigo}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-            <WalletIcon size={32} color="#fff" />
-            <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#fff' }}>マイウォレット</Text>
+        <GradientHeader colors={GRADIENT_COLORS.blueIndigo} style={{ paddingVertical: 28 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 4 }}>
+            <WalletIcon size={28} color="#fff" />
+            <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#fff' }}>マイウォレット</Text>
           </View>
-          <Text style={{ fontSize: 14, color: '#BFDBFE' }}>デジタルアイデンティティウォレット</Text>
+          <Text style={{ fontSize: 15, color: '#BFDBFE' }}>デジタルアイデンティティウォレット</Text>
         </GradientHeader>
 
-        <View style={{ padding: 16 }}>
+        <View style={{ padding: 20 }}>
           {/* DIDセクション */}
-          <View style={{ marginBottom: 24 }}>
-            <Text style={{ fontSize: 12, fontWeight: '600', color: '#6B7280', marginBottom: 8 }}>マイDID</Text>
-            <View style={{ backgroundColor: '#F9FAFB', borderRadius: 8, padding: 16, borderWidth: 1, borderColor: '#E5E7EB' }}>
+          <View style={{ marginBottom: 28 }}>
+            <Text style={{ fontSize: 14, fontWeight: '600', color: '#6B7280', marginBottom: 10, letterSpacing: 0.5 }}>マイDID</Text>
+            <View style={{ backgroundColor: '#fff', borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#E5E7EB' }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-                <Text style={{ flex: 1, fontSize: 14, color: '#374151', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace' }}>
+                <Text style={{ flex: 1, fontSize: 13, color: '#374151', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace', lineHeight: 20 }}>
                   {did}
                 </Text>
-                <View style={{ flexDirection: 'row', gap: 8 }}>
+                <View style={{ flexDirection: 'row', gap: 4 }}>
                   <Pressable
                     onPress={() => setShowQR(!showQR)}
                     style={({ pressed }) => ({
-                      padding: 8,
-                      backgroundColor: pressed ? '#E5E7EB' : 'transparent',
-                      borderRadius: 6,
+                      padding: 10,
+                      backgroundColor: pressed ? '#E5E7EB' : '#F3F4F6',
+                      borderRadius: 8,
                     })}
                   >
-                    <QrCodeIcon size={20} color="#4B5563" />
+                    <QrCodeIcon size={22} color="#4B5563" />
                   </Pressable>
                   <Pressable
                     onPress={handleCopyDID}
                     style={({ pressed }) => ({
-                      padding: 8,
-                      backgroundColor: pressed ? '#E5E7EB' : 'transparent',
-                      borderRadius: 6,
+                      padding: 10,
+                      backgroundColor: pressed ? '#E5E7EB' : '#F3F4F6',
+                      borderRadius: 8,
                     })}
                   >
                     {copied ? (
-                      <CheckIcon size={20} color="#16A34A" />
+                      <CheckIcon size={22} color="#16A34A" />
                     ) : (
-                      <CopyIcon size={20} color="#4B5563" />
+                      <CopyIcon size={22} color="#4B5563" />
                     )}
                   </Pressable>
                 </View>
               </View>
 
-              {/* QRコード表示 */}
               {showQR && (
-                <View style={{ marginTop: 16, alignItems: 'center', padding: 16, backgroundColor: '#fff', borderRadius: 8, borderWidth: 1, borderColor: '#E5E7EB' }}>
-                  <QRCode value={did} size={150} />
-                  <Text style={{ marginTop: 8, fontSize: 12, color: '#6B7280' }}>
+                <View style={{ marginTop: 16, alignItems: 'center', paddingVertical: 20, backgroundColor: '#F9FAFB', borderRadius: 12 }}>
+                  <QRCode value={did} size={180} />
+                  <Text style={{ marginTop: 12, fontSize: 14, color: '#6B7280' }}>
                     委任者にこのQRコードを見せてください
                   </Text>
                 </View>
@@ -103,67 +92,69 @@ export default function HomeScreen({ navigation, route }) {
           </View>
 
           {/* 委任状受け取りボタン */}
-          <View style={{ marginBottom: 24 }}>
+          <View style={{ marginBottom: 32 }}>
             <Pressable
-              onPress={handleStartScanner}
+              onPress={() => navigation.navigate('QRScanner', { did })}
               style={({ pressed }) => ({
                 backgroundColor: pressed ? '#7C3AED' : '#9333EA',
-                borderRadius: 8,
-                paddingVertical: 14,
+                borderRadius: 12,
+                paddingVertical: 16,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 8,
+                gap: 10,
               })}
             >
-              <CameraIcon size={20} color="#fff" />
-              <Text style={{ color: '#fff', fontWeight: '600' }}>カメラでスキャン</Text>
+              <CameraIcon size={22} color="#fff" />
+              <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>カメラでスキャン</Text>
             </Pressable>
-            <Text style={{ marginTop: 8, fontSize: 12, color: '#6B7280', textAlign: 'center' }}>
+            <Text style={{ marginTop: 10, fontSize: 14, color: '#9CA3AF', textAlign: 'center' }}>
               委任状QRコードを受け取って代理ログインに使用できます
             </Text>
           </View>
 
           {/* 保有証明書（身分証） */}
-          <View style={{ marginBottom: 24 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-              <Text style={{ fontSize: 12, fontWeight: '600', color: '#6B7280' }}>
+          <View style={{ marginBottom: 28 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+              <Text style={{ fontSize: 14, fontWeight: '600', color: '#6B7280', letterSpacing: 0.5 }}>
                 保有証明書 ({vcs.length}件)
               </Text>
               <Pressable
-                onPress={handleAddIdentityVC}
+                onPress={() => navigation.navigate('VCRegistration')}
                 style={({ pressed }) => ({
-                  paddingHorizontal: 12,
-                  paddingVertical: 6,
+                  paddingHorizontal: 14,
+                  paddingVertical: 8,
                   backgroundColor: pressed ? '#D1FAE5' : '#ECFDF5',
                   borderWidth: 1,
                   borderColor: '#BBF7D0',
                   borderRadius: 8,
                 })}
               >
-                <Text style={{ fontSize: 12, color: '#047857', fontWeight: '600' }}>+ 身分証を追加</Text>
+                <Text style={{ fontSize: 14, color: '#047857', fontWeight: '600' }}>+ 身分証を追加</Text>
               </Pressable>
             </View>
 
             {vcs.length === 0 ? (
-              <View style={{ alignItems: 'center', paddingVertical: 32 }}>
+              <View style={{ alignItems: 'center', paddingVertical: 40, backgroundColor: '#fff', borderRadius: 12, borderWidth: 1, borderColor: '#E5E7EB' }}>
                 <CreditCardIcon size={48} color="#D1D5DB" />
-                <Text style={{ color: '#9CA3AF', marginTop: 8 }}>保有している証明書はありません</Text>
+                <Text style={{ color: '#9CA3AF', marginTop: 12, fontSize: 16 }}>保有している証明書はありません</Text>
               </View>
             ) : (
               <View style={{ gap: 12 }}>
                 {vcs.map((vc) => (
                   <View
                     key={vc.id}
-                    style={{ borderWidth: 1, borderColor: '#E5E7EB', borderRadius: 8, padding: 16, backgroundColor: '#fff' }}
+                    style={{ borderWidth: 1, borderColor: '#E5E7EB', borderRadius: 12, padding: 16, backgroundColor: '#fff' }}
                   >
-                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
-                      <CreditCardIcon size={24} color="#2563EB" style={{ marginTop: 2 }} />
+                    <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 14 }}>
+                      <View style={{ width: 44, height: 44, borderRadius: 10, backgroundColor: '#DBEAFE', alignItems: 'center', justifyContent: 'center' }}>
+                        <CreditCardIcon size={24} color="#2563EB" />
+                      </View>
                       <View style={{ flex: 1 }}>
-                        <Text style={{ fontWeight: '600', color: '#111827', marginBottom: 4 }}>{vc.type}</Text>
-                        <Text style={{ fontSize: 14, color: '#4B5563' }}>発行者: {vc.issuer}</Text>
-                        <Text style={{ fontSize: 14, color: '#4B5563' }}>氏名: {vc.holderName}</Text>
-                        <Text style={{ fontSize: 14, color: '#6B7280' }}>
+                        <Text style={{ fontWeight: '700', color: '#111827', fontSize: 17, marginBottom: 6 }}>{vc.type}</Text>
+                        <Text style={{ fontSize: 15, color: '#4B5563', marginBottom: 2 }}>発行者: {vc.issuer}</Text>
+                        <Text style={{ fontSize: 15, color: '#4B5563', marginBottom: 2 }}>氏名: {vc.holderName}</Text>
+                        <Text style={{ fontSize: 14, color: '#9CA3AF', marginTop: 4 }}>
                           発行日: {vc.issuedDate} / 有効期限: {vc.expiryDate}
                         </Text>
                       </View>
@@ -176,8 +167,8 @@ export default function HomeScreen({ navigation, route }) {
 
           {/* 委任状VC */}
           {delegationVCs && delegationVCs.length > 0 && (
-            <View style={{ marginBottom: 24 }}>
-              <Text style={{ fontSize: 12, fontWeight: '600', color: '#6B7280', marginBottom: 12 }}>
+            <View style={{ marginBottom: 28 }}>
+              <Text style={{ fontSize: 14, fontWeight: '600', color: '#6B7280', marginBottom: 14, letterSpacing: 0.5 }}>
                 受領した委任状 ({delegationVCs.length}件)
               </Text>
               <View style={{ gap: 12 }}>
@@ -190,40 +181,44 @@ export default function HomeScreen({ navigation, route }) {
                         borderWidth: 1,
                         borderColor: isExpired ? '#D1D5DB' : '#D8B4FE',
                         backgroundColor: isExpired ? '#F9FAFB' : '#FAF5FF',
-                        borderRadius: 8,
+                        borderRadius: 12,
                         padding: 16,
                       }}
                     >
-                      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
-                        <FileTextIcon size={24} color={isExpired ? '#9CA3AF' : '#9333EA'} style={{ marginTop: 2 }} />
+                      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 14 }}>
+                        <View style={{
+                          width: 44, height: 44, borderRadius: 10,
+                          backgroundColor: isExpired ? '#F3F4F6' : '#F3E8FF',
+                          alignItems: 'center', justifyContent: 'center',
+                        }}>
+                          <FileTextIcon size={24} color={isExpired ? '#9CA3AF' : '#9333EA'} />
+                        </View>
                         <View style={{ flex: 1 }}>
-                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                            <Text style={{ fontWeight: '600', color: isExpired ? '#6B7280' : '#111827' }}>
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                            <Text style={{ fontWeight: '700', fontSize: 17, color: isExpired ? '#6B7280' : '#111827' }}>
                               委任状
                             </Text>
                             <View style={{
-                              paddingHorizontal: 8,
-                              paddingVertical: 2,
-                              borderRadius: 4,
+                              paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6,
                               backgroundColor: isExpired ? '#E5E7EB' : '#DCFCE7',
                             }}>
-                              <Text style={{ fontSize: 12, color: isExpired ? '#4B5563' : '#15803D' }}>
+                              <Text style={{ fontSize: 13, fontWeight: '600', color: isExpired ? '#4B5563' : '#15803D' }}>
                                 {isExpired ? '期限切れ' : '有効'}
                               </Text>
                             </View>
                           </View>
-                          <Text style={{ fontSize: 14, color: '#4B5563' }}>
+                          <Text style={{ fontSize: 15, color: '#4B5563', marginBottom: 2 }}>
                             委任者: {vc.issuer?.name || '不明'}
                           </Text>
-                          <Text style={{ fontSize: 14, color: '#4B5563' }}>
+                          <Text style={{ fontSize: 15, color: '#4B5563', marginBottom: 2 }}>
                             権限: {vc.scope?.join(', ') || '閲覧'}
                           </Text>
                           {vc.purpose && (
-                            <Text style={{ fontSize: 14, color: '#4B5563' }}>
+                            <Text style={{ fontSize: 15, color: '#4B5563', marginBottom: 2 }}>
                               目的: {vc.purpose}
                             </Text>
                           )}
-                          <Text style={{ fontSize: 14, color: '#6B7280' }}>
+                          <Text style={{ fontSize: 14, color: '#9CA3AF', marginTop: 4 }}>
                             有効期限: {vc.expiryDate}
                           </Text>
                         </View>
@@ -255,14 +250,15 @@ export default function HomeScreen({ navigation, route }) {
               );
             }}
             style={({ pressed }) => ({
-              marginTop: 24,
-              paddingVertical: 12,
+              marginTop: 16,
+              marginBottom: 24,
+              paddingVertical: 14,
               alignItems: 'center',
               backgroundColor: pressed ? '#FEE2E2' : 'transparent',
               borderRadius: 8,
             })}
           >
-            <Text style={{ fontSize: 13, color: '#EF4444' }}>データをリセット</Text>
+            <Text style={{ fontSize: 14, color: '#EF4444' }}>データをリセット</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -274,23 +270,23 @@ export default function HomeScreen({ navigation, route }) {
         animationType="fade"
         onRequestClose={() => setScanSuccess(null)}
       >
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 16 }}>
-          <View style={{ backgroundColor: '#fff', borderRadius: 12, padding: 24, width: '100%', maxWidth: 400, alignItems: 'center' }}>
-            <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: '#DCFCE7', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-              <CheckIcon size={32} color="#16A34A" />
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+          <View style={{ backgroundColor: '#fff', borderRadius: 16, padding: 28, width: '100%', maxWidth: 400, alignItems: 'center' }}>
+            <View style={{ width: 72, height: 72, borderRadius: 36, backgroundColor: '#DCFCE7', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+              <CheckIcon size={36} color="#16A34A" />
             </View>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#111827', marginBottom: 8 }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#111827', marginBottom: 12 }}>
               委任状を受け取りました
             </Text>
             {scanSuccess && (
-              <View style={{ backgroundColor: '#F9FAFB', borderRadius: 8, padding: 16, width: '100%', marginBottom: 16 }}>
-                <Text style={{ fontSize: 14, color: '#4B5563', marginBottom: 4 }}>
+              <View style={{ backgroundColor: '#F9FAFB', borderRadius: 12, padding: 16, width: '100%', marginBottom: 20 }}>
+                <Text style={{ fontSize: 16, color: '#4B5563', marginBottom: 6 }}>
                   <Text style={{ fontWeight: '600' }}>委任者:</Text> {scanSuccess.issuer?.name}
                 </Text>
-                <Text style={{ fontSize: 14, color: '#4B5563', marginBottom: 4 }}>
+                <Text style={{ fontSize: 16, color: '#4B5563', marginBottom: 6 }}>
                   <Text style={{ fontWeight: '600' }}>権限:</Text> {scanSuccess.scope?.join(', ')}
                 </Text>
-                <Text style={{ fontSize: 14, color: '#4B5563' }}>
+                <Text style={{ fontSize: 16, color: '#4B5563' }}>
                   <Text style={{ fontWeight: '600' }}>有効期限:</Text> {scanSuccess.expiryDate}
                 </Text>
               </View>
@@ -300,12 +296,12 @@ export default function HomeScreen({ navigation, route }) {
               style={({ pressed }) => ({
                 width: '100%',
                 backgroundColor: pressed ? '#1D4ED8' : '#2563EB',
-                borderRadius: 8,
-                paddingVertical: 12,
+                borderRadius: 12,
+                paddingVertical: 16,
                 alignItems: 'center',
               })}
             >
-              <Text style={{ color: '#fff', fontWeight: '600' }}>閉じる</Text>
+              <Text style={{ color: '#fff', fontWeight: '700', fontSize: 16 }}>閉じる</Text>
             </Pressable>
           </View>
         </View>

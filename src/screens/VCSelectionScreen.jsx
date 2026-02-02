@@ -54,33 +54,33 @@ export default function VCSelectionScreen({ navigation, route }) {
       <ScrollView>
         {/* ヘッダー */}
         <GradientHeader colors={isDelegationLogin ? GRADIENT_COLORS.purpleIndigo : GRADIENT_COLORS.purpleIndigo}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 10 }}>
             <WalletIcon size={32} color="#fff" />
             <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#fff' }}>デジタルウォレット</Text>
           </View>
-          <Text style={{ fontSize: 14, color: '#E9D5FF' }}>
+          <Text style={{ fontSize: 15, color: '#E9D5FF', lineHeight: 22 }}>
             {isDelegationLogin
               ? '代理ログインに使用する委任状を選択してください'
               : '本人確認のため、身分証VCを選択してください'}
           </Text>
         </GradientHeader>
 
-        <View style={{ padding: 16 }}>
-          <View style={{ marginBottom: 16 }}>
-            <Text style={{ fontSize: 18, fontWeight: '600', color: '#111827', marginBottom: 8 }}>
+        <View style={{ padding: 20 }}>
+          <View style={{ marginBottom: 20 }}>
+            <Text style={{ fontSize: 20, fontWeight: '600', color: '#111827', marginBottom: 8 }}>
               {isDelegationLogin ? '保有している委任状' : '保有している身分証VC'}
             </Text>
-            <Text style={{ fontSize: 14, color: '#4B5563' }}>
+            <Text style={{ fontSize: 15, color: '#4B5563', lineHeight: 22 }}>
               {isDelegationLogin ? '提出する委任状を選択してください' : '提出する身分証を選択してください'}
             </Text>
           </View>
 
           {/* 代理ログインモードで委任状がない場合 */}
           {isDelegationLogin && validDelegationVCs.length === 0 && (
-            <View style={{ alignItems: 'center', paddingVertical: 32 }}>
-              <FileTextIcon size={48} color="#D1D5DB" />
-              <Text style={{ fontWeight: '600', color: '#6B7280', marginTop: 12 }}>有効な委任状がありません</Text>
-              <Text style={{ fontSize: 14, color: '#6B7280', marginTop: 8 }}>委任者から委任状を受け取ってください</Text>
+            <View style={{ alignItems: 'center', paddingVertical: 40 }}>
+              <FileTextIcon size={52} color="#D1D5DB" />
+              <Text style={{ fontWeight: '600', color: '#6B7280', marginTop: 16, fontSize: 16 }}>有効な委任状がありません</Text>
+              <Text style={{ fontSize: 15, color: '#6B7280', marginTop: 8, lineHeight: 22 }}>委任者から委任状を受け取ってください</Text>
             </View>
           )}
 
@@ -95,13 +95,13 @@ export default function VCSelectionScreen({ navigation, route }) {
                     borderWidth: 2,
                     borderColor: selectedVC?.id === vc.id ? '#3B82F6' : '#E5E7EB',
                     backgroundColor: selectedVC?.id === vc.id ? '#EFF6FF' : '#fff',
-                    borderRadius: 8,
-                    padding: 16,
+                    borderRadius: 12,
+                    padding: 18,
                   }}
                 >
                   <View style={{ flexDirection: 'row', gap: 16 }}>
                     <View style={{
-                      width: 64, height: 64, borderRadius: 8,
+                      width: 56, height: 56, borderRadius: 12,
                       backgroundColor: vc.type === '運転免許証' ? '#DCFCE7' : '#DBEAFE',
                       alignItems: 'center', justifyContent: 'center',
                     }}>
@@ -111,7 +111,7 @@ export default function VCSelectionScreen({ navigation, route }) {
                       />
                     </View>
                     <View style={{ flex: 1 }}>
-                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                         <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#111827' }}>{vc.type}</Text>
                         {selectedVC?.id === vc.id && (
                           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
@@ -120,26 +120,26 @@ export default function VCSelectionScreen({ navigation, route }) {
                           </View>
                         )}
                       </View>
-                      <View style={{ gap: 4 }}>
+                      <View style={{ gap: 6 }}>
                         <View style={{ flexDirection: 'row' }}>
-                          <Text style={{ fontSize: 14, color: '#6B7280', width: 60 }}>発行者</Text>
-                          <Text style={{ fontSize: 14, color: '#111827', fontWeight: '600' }}>{vc.issuer}</Text>
+                          <Text style={{ fontSize: 14, color: '#6B7280', width: 64 }}>発行者</Text>
+                          <Text style={{ fontSize: 15, color: '#111827', fontWeight: '600', flex: 1 }}>{vc.issuer}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                          <Text style={{ fontSize: 14, color: '#6B7280', width: 60 }}>発行日</Text>
-                          <Text style={{ fontSize: 14, color: '#111827' }}>{vc.issuedDate}</Text>
+                          <Text style={{ fontSize: 14, color: '#6B7280', width: 64 }}>発行日</Text>
+                          <Text style={{ fontSize: 15, color: '#111827' }}>{vc.issuedDate}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                          <Text style={{ fontSize: 14, color: '#6B7280', width: 60 }}>氏名</Text>
-                          <Text style={{ fontSize: 14, color: '#111827' }}>{vc.holderName}</Text>
+                          <Text style={{ fontSize: 14, color: '#6B7280', width: 64 }}>氏名</Text>
+                          <Text style={{ fontSize: 15, color: '#111827' }}>{vc.holderName}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                          <Text style={{ fontSize: 14, color: '#6B7280', width: 60 }}>有効期限</Text>
-                          <Text style={{ fontSize: 14, color: '#111827' }}>{vc.expiryDate}</Text>
+                          <Text style={{ fontSize: 14, color: '#6B7280', width: 64 }}>有効期限</Text>
+                          <Text style={{ fontSize: 15, color: '#111827' }}>{vc.expiryDate}</Text>
                         </View>
-                        <View>
+                        <View style={{ marginTop: 4 }}>
                           <Text style={{ fontSize: 14, color: '#6B7280' }}>DID</Text>
-                          <Text style={{ fontSize: 12, color: '#111827', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace' }}>
+                          <Text style={{ fontSize: 12, color: '#111827', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace', lineHeight: 18 }}>
                             {vc.did}
                           </Text>
                         </View>
@@ -164,24 +164,24 @@ export default function VCSelectionScreen({ navigation, route }) {
                       borderWidth: 2,
                       borderColor: isSelected ? '#A855F7' : '#E5E7EB',
                       backgroundColor: isSelected ? '#FAF5FF' : '#fff',
-                      borderRadius: 8,
-                      padding: 16,
+                      borderRadius: 12,
+                      padding: 18,
                     }}
                   >
                     <View style={{ flexDirection: 'row', gap: 16 }}>
                       <View style={{
-                        width: 64, height: 64, borderRadius: 8,
+                        width: 56, height: 56, borderRadius: 12,
                         backgroundColor: '#F3E8FF',
                         alignItems: 'center', justifyContent: 'center',
                       }}>
-                        <FileTextIcon size={32} color="#9333EA" />
+                        <FileTextIcon size={28} color="#9333EA" />
                       </View>
                       <View style={{ flex: 1 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                             <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#111827' }}>委任状</Text>
-                            <View style={{ paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4, backgroundColor: '#DCFCE7' }}>
-                              <Text style={{ fontSize: 12, color: '#15803D' }}>有効</Text>
+                            <View style={{ paddingHorizontal: 10, paddingVertical: 3, borderRadius: 6, backgroundColor: '#DCFCE7' }}>
+                              <Text style={{ fontSize: 12, color: '#15803D', fontWeight: '600' }}>有効</Text>
                             </View>
                           </View>
                           {isSelected && (
@@ -191,28 +191,28 @@ export default function VCSelectionScreen({ navigation, route }) {
                             </View>
                           )}
                         </View>
-                        <View style={{ gap: 4 }}>
+                        <View style={{ gap: 6 }}>
                           <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ fontSize: 14, color: '#6B7280', width: 60 }}>委任者</Text>
-                            <Text style={{ fontSize: 14, color: '#111827', fontWeight: '600' }}>{vc.issuer?.name || '不明'}</Text>
+                            <Text style={{ fontSize: 14, color: '#6B7280', width: 64 }}>委任者</Text>
+                            <Text style={{ fontSize: 15, color: '#111827', fontWeight: '600', flex: 1 }}>{vc.issuer?.name || '不明'}</Text>
                           </View>
                           <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ fontSize: 14, color: '#6B7280', width: 60 }}>有効期限</Text>
-                            <Text style={{ fontSize: 14, color: '#111827' }}>{vc.expiryDate}</Text>
+                            <Text style={{ fontSize: 14, color: '#6B7280', width: 64 }}>有効期限</Text>
+                            <Text style={{ fontSize: 15, color: '#111827' }}>{vc.expiryDate}</Text>
                           </View>
                           <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ fontSize: 14, color: '#6B7280', width: 60 }}>権限</Text>
-                            <Text style={{ fontSize: 14, color: '#111827' }}>{vc.scope?.join(', ') || '閲覧'}</Text>
+                            <Text style={{ fontSize: 14, color: '#6B7280', width: 64 }}>権限</Text>
+                            <Text style={{ fontSize: 15, color: '#111827' }}>{vc.scope?.join(', ') || '閲覧'}</Text>
                           </View>
                           {vc.purpose && (
                             <View style={{ flexDirection: 'row' }}>
-                              <Text style={{ fontSize: 14, color: '#6B7280', width: 60 }}>目的</Text>
-                              <Text style={{ fontSize: 14, color: '#111827' }}>{vc.purpose}</Text>
+                              <Text style={{ fontSize: 14, color: '#6B7280', width: 64 }}>目的</Text>
+                              <Text style={{ fontSize: 15, color: '#111827' }}>{vc.purpose}</Text>
                             </View>
                           )}
-                          <View>
+                          <View style={{ marginTop: 4 }}>
                             <Text style={{ fontSize: 14, color: '#6B7280' }}>委任者DID</Text>
-                            <Text style={{ fontSize: 12, color: '#111827', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace' }}>
+                            <Text style={{ fontSize: 12, color: '#111827', fontFamily: Platform.OS === 'ios' ? 'Courier New' : 'monospace', lineHeight: 18 }}>
                               {vc.issuer?.did}
                             </Text>
                           </View>
@@ -226,7 +226,7 @@ export default function VCSelectionScreen({ navigation, route }) {
           )}
 
           {/* アクションボタン */}
-          <View style={{ flexDirection: 'row', gap: 12, marginTop: 24 }}>
+          <View style={{ flexDirection: 'row', gap: 12, marginTop: 28 }}>
             <Pressable
               onPress={handleCancel}
               style={({ pressed }) => ({
@@ -234,8 +234,8 @@ export default function VCSelectionScreen({ navigation, route }) {
                 borderWidth: 2,
                 borderColor: '#D1D5DB',
                 backgroundColor: pressed ? '#F9FAFB' : '#fff',
-                borderRadius: 8,
-                paddingVertical: 14,
+                borderRadius: 12,
+                paddingVertical: 16,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -243,7 +243,7 @@ export default function VCSelectionScreen({ navigation, route }) {
               })}
             >
               <ArrowLeft size={20} color="#374151" />
-              <Text style={{ color: '#374151', fontWeight: '600' }}>キャンセル</Text>
+              <Text style={{ color: '#374151', fontWeight: '600', fontSize: 16 }}>キャンセル</Text>
             </Pressable>
             <Pressable
               onPress={handleSubmit}
@@ -251,8 +251,8 @@ export default function VCSelectionScreen({ navigation, route }) {
               style={{
                 flex: 1,
                 backgroundColor: !selectedVC ? '#D1D5DB' : (isDelegationLogin ? '#9333EA' : '#2563EB'),
-                borderRadius: 8,
-                paddingVertical: 14,
+                borderRadius: 12,
+                paddingVertical: 16,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -261,7 +261,7 @@ export default function VCSelectionScreen({ navigation, route }) {
               }}
             >
               <Send size={20} color={!selectedVC ? '#6B7280' : '#fff'} />
-              <Text style={{ color: !selectedVC ? '#6B7280' : '#fff', fontWeight: '600' }}>
+              <Text style={{ color: !selectedVC ? '#6B7280' : '#fff', fontWeight: '600', fontSize: 16 }}>
                 {isDelegationLogin ? '委任状を提出' : 'VCを提出'}
               </Text>
             </Pressable>
