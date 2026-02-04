@@ -68,7 +68,9 @@ export default function VCRegistrationScreen({ navigation }) {
   };
 
   const handleFinish = async () => {
-    await updateVCs([...existingVCs, ...newVCs]);
+    const updatedVCs = [...existingVCs, ...newVCs];
+    setNewVCs([]);
+    await updateVCs(updatedVCs);
     navigation.replace('Home');
   };
 
